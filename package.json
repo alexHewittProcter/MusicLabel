@@ -1,0 +1,17 @@
+{
+  "name": "musiclabel",
+  "version": "1.0.0",
+  "description": "An interface for categorizing music",
+  "main": "index.js",
+  "scripts": {
+    "deepInstall": "npm install && cd client && npm install",
+    "test": ""
+  },
+  "author": "Alex Hewitt-Procter",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.3"
+  }
+  
+}
