@@ -32,7 +32,6 @@ class TaskDetail extends Component {
 	}
 
 	removeFile(index) {
-		console.log(index);
 		this.setState((state) => {
 			const files = state.files;
 			files.splice(index, 1);

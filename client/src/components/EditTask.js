@@ -14,13 +14,13 @@ class EditTask extends Component {
 				title="Edit task"
 				submitCallback={async (task) => {
 					try {
+						await taskData.setTasks(tasks);
 						const tasks = [ ...this.props.tasks ];
 						tasks[this.props.taskId] = task;
-						await taskData.setTasks(tasks);
 						this.props.updateTask(task, this.props.taskId);
 						this.props.history.push('/task/' + this.props.taskId);
 					} catch (e) {
-						throw e;
+						console.log(e);
 					}
 				}}
 			/>

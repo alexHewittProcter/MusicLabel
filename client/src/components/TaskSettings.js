@@ -139,7 +139,7 @@ export default class TaskSettings extends React.Component {
 		});
 	}
 
-	submitTask(e) {
+	async submitTask(e) {
 		e.preventDefault();
 		const { name, folder, labels } = this.state;
 		const newTask = new Task();
@@ -148,7 +148,7 @@ export default class TaskSettings extends React.Component {
 		newTask.labels = labels;
 		console.log(newTask);
 		if (this.props.submitCallback !== undefined) {
-			this.props.submitCallback(newTask);
+			await this.props.submitCallback(newTask);
 		}
 	}
 }

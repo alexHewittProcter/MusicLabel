@@ -143,6 +143,18 @@ app.get('/api/files/:folder', async (req, res) => {
 app.post('/api/classify', async (req, res) => {
 	const { folder, file, task, label } = req.body;
 	try {
+		//Add to label to json
+		let labels = [];
+		const buffer = await asyncFs.readFile('user_files/labels.json').catch((err) => console.log(err));
+		if (buffer === undefined) {
+			labels = [];
+		} else {
+			labels = JSON.parse(buffer);
+		}
+		console.log(labels);
+		labels.push({ fileName: file, task: task, label: label });
+		console.log(labels);
+		await asyncFs.writeFile('user_files/labels.json', JSON.stringify(labels));
 		//Check if folder for label exists
 		if (!fs.existsSync('output_files/' + task)) {
 			console.log('Folder created 1');
@@ -156,7 +168,6 @@ app.post('/api/classify', async (req, res) => {
 		res.setHeader('content-type', 'application/json');
 		res.statusCode = 200;
 		res.send('Moved file');
-		//Add to label json
 	} catch (e) {
 		console.log(e);
 		res.setHeader('content-type', 'application/json');

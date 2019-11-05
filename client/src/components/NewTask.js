@@ -21,7 +21,7 @@ class NewTask extends Component {
 						this.props.createNewTask(task);
 						this.props.history.push('/task/' + this.props.nextTaskId);
 					} catch (e) {
-						throw e;
+						console.log(e);
 					}
 				}}
 			/>

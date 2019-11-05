@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import { fetch } from './general.data';
 import * as generalData from './general.data';
 
 export const setUserSettings = async (userSettings) => {

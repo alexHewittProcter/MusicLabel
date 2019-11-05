@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import * as fileData from '../store/data/Files.data';
+import { exists } from 'fs';
 
 export default class MusicFileItem extends Component {
 	constructor(props) {
