@@ -20,14 +20,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 	});
 	fs.exists('./input_files', (result) => {
 		if (!result) {
-			fs.mkdir('./user_files', (err) => {
+			fs.mkdir('./input_files', (err) => {
 				console.log(err);
 			});
 		}
 	});
 	fs.exists('./output_files', (result) => {
 		if (!result) {
-			fs.mkdir('./user_files', (err) => {
+			fs.mkdir('./output_files', (err) => {
 				console.log(err);
 			});
 		}
