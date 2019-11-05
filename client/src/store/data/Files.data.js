@@ -1,5 +1,4 @@
-import fetch from 'node-fetch';
-
+import { fetch } from './general.data';
 export const getFiles = async (folder) => {
 	try {
 		const call = await fetch(`/api/files/${folder}`);
