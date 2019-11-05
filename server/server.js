@@ -38,7 +38,7 @@ const getInputFolders = async () => {
 	return await asyncFs
 		.readdir('input_files')
 		.catch((err) => console.log(err))
-		.then((data) => (data === undefined ? {} : data));
+		.then((data) => (data === undefined ? [] : data));
 };
 
 // Endpoints
