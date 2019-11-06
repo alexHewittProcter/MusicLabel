@@ -45,6 +45,8 @@ class TaskDetail extends Component {
 		if (this.state.files.length === 0 && this.state.noResults === false) {
 			this.getFiles();
 		}
+		console.log("Tasl");
+		console.log(this.props);
 		return (
 			<div>
 				<PageHeader text={'Task - ' + this.props.task.name} />

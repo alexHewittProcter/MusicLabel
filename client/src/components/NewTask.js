@@ -9,6 +9,7 @@ import * as taskData from '../store/data/Tasks.data';
 
 class NewTask extends Component {
 	render() {
+		const newTaskId = this.props.nextTaskId;
 		return (
 			<TaskSettings
 				task={new Task()}
@@ -19,7 +20,7 @@ class NewTask extends Component {
 						tasks.push(task);
 						await taskData.setTasks(tasks);
 						this.props.createNewTask(task);
-						this.props.history.push('/task/' + this.props.nextTaskId);
+						this.props.history.push('/task/' + newTaskId);
 					} catch (e) {
 						console.log(e);
 					}
