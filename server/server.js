@@ -9,43 +9,21 @@ const port = 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// When run check if user_files exist
-(() => {
-	fs.exists('./user_files', (result) => {
-		if (!result) {
-			fs.mkdir('./user_files', (err) => {
-				console.log(err);
-			});
-		}
-	});
-	fs.exists('./input_files', (result) => {
-		if (!result) {
-			fs.mkdir('./input_files', (err) => {
-				console.log(err);
-			});
-		}
-	});
-	fs.exists('./output_files', (result) => {
-		if (!result) {
-			fs.mkdir('./output_files', (err) => {
-				console.log(err);
-			});
-		}
-	});
-})();
-
 const getUserInfo = async () => {
-	return await asyncFs
-		.readFile('user_files/settings.json')
-		.catch((err) => console.log(err))
-		.then((data) => (data === undefined ? {} : data));
+	return await asyncFs.readFile('user_files/settings.json').catch((err) => console.log(err)).then((data) => {
+		if (data === undefined || data.toString() === '') {
+			return {};
+		} else {
+			return data;
+		}
+	});
 };
 
 const getTasks = async () => {
 	return await asyncFs
 		.readFile('user_files/tasks.json')
 		.catch((err) => console.log(err))
-		.then((data) => (data === undefined ? {} : data));
+		.then((data) => (data === undefined ? [] : data));
 };
 
 const getInputFolders = async () => {
@@ -133,7 +111,12 @@ app.get('/api/files/:folder', async (req, res) => {
 	//read folder
 	try {
 		const files = await asyncFs.readdir('input_files/' + folder);
-		let calls = await Promise.all(files.map((file) => mm.parseFile('input_files/' + folder + '/' + file)));
+		let calls = await Promise.all(
+			files.filter((filer) => filer !== '.DS_Store').map((file) => {
+				return mm.parseFile('input_files/' + folder + '/' + file);
+			})
+		);
+
 		calls = calls.slice(0, 20);
 		calls = calls.map((call, index) => ({
 			title: call.common.title,
@@ -171,15 +154,15 @@ app.post('/api/classify', async (req, res) => {
 		await asyncFs.writeFile('user_files/labels.json', JSON.stringify(labels));
 		//Check if folder for label exists
 		if (!fs.existsSync('output_files/' + task)) {
-			console.log('Folder created 1');
+			console.log('Task created 1');
 			fs.mkdirSync('output_files/' + task);
 		}
 		if (!fs.existsSync('output_files/' + task + '/' + label)) {
-			console.log('Folder created 2 ');
+			console.log('Label created 2 ');
 			fs.mkdirSync('output_files/' + task + '/' + label);
 		}
 		await asyncFs.rename('input_files/' + folder + '/' + file, 'output_files/' + task + '/' + label + '/' + file);
-		res.setHeader('content-type', 'application/json');
+		res.setHeader('content-type', 'text/plain');
 		res.statusCode = 200;
 		res.send('Moved file');
 	} catch (e) {
@@ -190,6 +173,30 @@ app.post('/api/classify', async (req, res) => {
 	}
 });
 
-app.listen(port, () => {
+const listenFunc = () => {
 	console.log(`Listening on port ${port}`);
-});
+	// When run check if user_files exist
+	fs.exists('./user_files', (result) => {
+		if (!result) {
+			fs.mkdir('./user_files', (err) => {
+				console.log(err);
+			});
+		}
+	});
+	fs.exists('./input_files', (result) => {
+		if (!result) {
+			fs.mkdir('./input_files', (err) => {
+				console.log(err);
+			});
+		}
+	});
+	fs.exists('./output_files', (result) => {
+		if (!result) {
+			fs.mkdir('./output_files', (err) => {
+				console.log(err);
+			});
+		}
+	});
+};
+
+module.exports = { port: port, listenFunc: listenFunc, app: app };
