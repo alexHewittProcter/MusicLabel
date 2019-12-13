@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mm = require('music-metadata');
 const fs = require('fs');
+const kue = require('kue');
+// const background_jobs = require('./background-jobs');
 const asyncFs = fs.promises;
 const app = express();
 const port = 5000;
@@ -198,5 +200,8 @@ const listenFunc = () => {
 		}
 	});
 };
+
+//Set up background jobs
+app.use('/kue', kue.app);
 
 module.exports = { port: port, listenFunc: listenFunc, app: app };
