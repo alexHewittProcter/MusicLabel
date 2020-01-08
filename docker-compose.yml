@@ -1,0 +1,34 @@
+version: '3.7'
+services: 
+  web:
+    build:
+      context: ./client
+      dockerfile: DockerFile
+    volumes:
+      - "./client/src:/app/src"
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+  api:
+    build:
+      context: ./server
+      dockerfile: api.DockerFile
+    volumes:
+      - "./server/src:/app/src"
+      - "./input_files:/app/input_files"
+      - "./output_files:/app/output_files"
+      - "./user_files:/app/user_files"
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
+  redis:
+    image: redis
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./redis:/data"
+    entrypoint: redis-server --appendonly yes

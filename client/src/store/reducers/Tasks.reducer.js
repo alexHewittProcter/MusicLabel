@@ -1,12 +1,5 @@
 import * as taskActions from '../actions/Tasks.actions';
-// import * as taskModels from "../models/Tasks.models";
 export const initialState = [];
-// const firstTask = new taskModels.Task();
-// firstTask.name = "TEst";
-// firstTask.folder = "TEST";
-// firstTask.labels.push("First");
-// firstTask.labels.push("Second");
-// initialState.push(firstTask);
 
 export function tasks(state = initialState, action) {
 	switch (action.type) {

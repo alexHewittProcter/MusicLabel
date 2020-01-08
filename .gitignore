@@ -6,3 +6,4 @@ package-lock.json
 user_files/
 input_files/*
 output_files/*
+test_music_files/*
